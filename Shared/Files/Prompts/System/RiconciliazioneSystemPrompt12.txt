@@ -1,0 +1,25 @@
+### Instruction ###
+You have to extract data from converted CSV text. The separator is ';'. 
+For each line of the CSV text, extract the following details if applicable:
+- **Invoice Number**: Alphanumeric, typically near "nota", "proforma", "n", "fatt", up to 15 characters.
+- **Invoice Issue Date**: Date related to the invoice in "dd/mm/yyyy" format (convert from formats like 14.3.23 to 14/03/2023).
+- **Owner**: The person or company associated with the payment.
+- **tpmovimento**: Default 0
+
+Handle missing or incomplete data gracefully, and try to extract partial information where possible.
+
+List of data:
+{{fileContent}}
+
+Create a JSON structure with the following fields:
+- document_number
+- document_date
+- owner
+- tpmovimento:
+  - Set to 1 if the CSV column "Entrata" is non-zero and "Uscita" is zero.
+  - Set to 2 only if the CSV column "Uscita" is non-zero and "Entrata" is zero.
+  - Set to 0 for all other cases.
+
+For each line of data, include a JSON object with these fields, setting missing fields to null. 
+Even for lines where the details cannot be extracted, provide a JSON object with all fields set to null.
+Respond with only the JSON structure.

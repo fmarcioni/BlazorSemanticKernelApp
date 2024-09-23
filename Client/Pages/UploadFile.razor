@@ -1,0 +1,51 @@
+﻿@page "/upload"
+@inject HttpClient Http
+
+<h3>Carica file</h3>
+
+<br /><br />
+
+<InputFile OnChange="HandleSelected" />
+<br /><br />
+<button @onclick="Upload">Carica File</button>
+
+@if (!string.IsNullOrEmpty(Message))
+{
+    <p>@Message</p>
+}
+
+@code {
+    private IBrowserFile selectedFile;
+    private string Message;
+
+    private void HandleSelected(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;
+    }
+
+    private async Task Upload()
+    {
+        if (selectedFile == null)
+        {
+            Message = "Nessun file selezionato";
+            return;
+        }
+
+        var content = new MultipartFormDataContent();
+        var fileContent = new StreamContent(selectedFile.OpenReadStream());
+        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(selectedFile.ContentType);
+
+        content.Add(fileContent, "file", selectedFile.Name);
+
+        var response = await Http.PostAsync("api/uploadfile/upload", content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            Message = "File caricato con successo!";
+        }
+        else
+        {
+            Message = "Errore durante il caricamento del file.";
+        }
+    }
+}

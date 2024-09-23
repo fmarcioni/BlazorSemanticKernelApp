@@ -1,0 +1,63 @@
+﻿@page "/"
+@inject NavigationManager Navigation
+
+<PageTitle>Home</PageTitle>
+
+<div class="container">
+    <!-- Box per la Riconciliazione bancaria -->
+    <div class="info-box" @onclick="NavigateToReconciliation">
+        <h2>Riconciliazione Bancaria</h2>
+        <p>Gestisci e confronta i tuoi file CSV bancari con facilità. Clicca qui per avviare la riconciliazione dei tuoi dati bancari.</p>
+    </div>
+
+    <!-- Box per la Gestione dei Prompt -->
+    <div class="info-box" @onclick="NavigateToPromptsManager">
+        <h2>Gestione dei Prompt</h2>
+        <p>Carica, modifica e gestisci i tuoi prompt per il sistema e l'utente. Clicca qui per gestire i tuoi prompt.</p>
+    </div>
+</div>
+
+<style>
+    .container {
+        display: inline-flex;
+        gap: 20px;
+        margin-top: 40px;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .info-box {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+    }
+
+        .info-box:hover {
+            background-color: #e2e6ea;
+        }
+
+        .info-box h2 {
+            margin-top: 0;
+        }
+
+        .info-box p {
+            margin-bottom: 0;
+        }
+</style>
+
+@code {
+    private void NavigateToReconciliation()
+    {
+        Navigation.NavigateTo("/riconciliazione");
+    }
+
+    private void NavigateToPromptsManager()
+    {
+        Navigation.NavigateTo("/prompts-manager");
+    }
+}
